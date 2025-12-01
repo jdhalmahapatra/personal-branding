@@ -31,6 +31,7 @@ export default async function handler(
   // LOCAL MOCK: set this var to make the function return a canned reply
   // without calling any external API. Useful for local development and testing.
   if (process.env.LOCAL_FAKE_GEMINI) {
+    console.log('[api/gemini] backend=mock');
     return res.status(200).json({ ok: true, text: `Mock reply: I received your message: ${message}` });
   }
 
@@ -39,10 +40,12 @@ export default async function handler(
 
   // Try GCP first if available
   if (saKey) {
+    console.log('[api/gemini] backend=selected gcp=true hf=false mock=false');
     return handleGemini(message, saKey, res);
   }
   // Fall back to Hugging Face if available
   if (hfKey) {
+    console.log('[api/gemini] backend=selected gcp=false hf=true mock=false');
     return handleHuggingFace(message, hfKey, res);
   }
   // No API key available
@@ -98,6 +101,9 @@ async function handleGemini(
       }),
     });
 
+    // Diagnostic: log response status (do not log tokens)
+    console.log('[api/gemini] gcp.fetch.status=', fetchRes.status);
+
     const data = (await fetchRes.json()) as Record<string, unknown>;
     let text = '';
     if (Array.isArray(data?.candidates)) {
@@ -117,7 +123,7 @@ async function handleGemini(
     return res.status(200).json({ ok: true, text });
   } catch (geminiErr: unknown) {
     const errorMsg = geminiErr instanceof Error ? geminiErr.message : String(geminiErr);
-    console.error('Gemini proxy error:', errorMsg);
+    console.error('[api/gemini] Gemini proxy error:', errorMsg);
     return res.status(500).json({ error: 'Internal server error', details: errorMsg });
   }
 }
@@ -149,9 +155,12 @@ async function handleHuggingFace(
       }),
     });
 
+    // Diagnostic: log response status (do not log token)
+    console.log('[api/gemini] hf.fetch.status=', fetchRes.status);
+
     if (!fetchRes.ok) {
-      const error = await fetchRes.json();
-      console.error('HF API error:', error);
+      const error = await fetchRes.json().catch(() => ({ status: fetchRes.status }));
+      console.error('[api/gemini] HF API error:', error);
       return res.status(fetchRes.status).json({ error: 'Hugging Face API error', details: error });
     }
 
