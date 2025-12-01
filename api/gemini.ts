@@ -137,13 +137,20 @@ async function handleHuggingFace(
   try {
     // Use a fast, small model suitable for free tier.
     // google/flan-t5-small is always available on free tier (fallback to gpt2 if needed)
-      // Try a list of models sequentially until one works.
-      // Some models are gated or not hosted on the HF Router; we'll attempt fallbacks.
-      const candidateModels = [
-        'google/flan-t5-small',
-        'gpt2',
-        'distilgpt2'
-      ];
+      // Allow overriding the HF model via env var `HF_MODEL` (set in Vercel project settings).
+      // If not provided, try a list of known-open models sequentially until one works.
+      const envModel = typeof process.env.HF_MODEL === 'string' && process.env.HF_MODEL.trim() !== '' ? process.env.HF_MODEL.trim() : undefined;
+      const candidateModels = envModel
+        ? [envModel]
+        : [
+            // Preferred free/open models to try (in order)
+            'google/flan-t5-base',
+            'google/flan-t5-small',
+            'gpt2',
+            'distilgpt2',
+            'facebook/bart-large-cnn',
+            't5-small',
+          ];
 
       let fetchRes: Response | null = null;
       let usedModel: string | null = null;
