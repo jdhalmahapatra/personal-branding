@@ -136,8 +136,8 @@ async function handleHuggingFace(
 ): Promise<void> {
   try {
     // Use a fast, small model suitable for free tier.
-    // Options: "meta-llama/Llama-2-7b-chat-hf", "mistralai/Mistral-7B-Instruct-v0.1", etc.
-    const model = 'mistralai/Mistral-7B-Instruct-v0.1'; // Fast, free-tier friendly
+    // google/flan-t5-small is always available on free tier (fallback to gpt2 if needed)
+    const model = 'google/flan-t5-small'; // Small, fast, reliable on free tier
     // Use the router endpoint (api-inference.huggingface.co is deprecated)
     const url = `https://router.huggingface.co/models/${model}`;
 
