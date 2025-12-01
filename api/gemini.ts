@@ -137,51 +137,69 @@ async function handleHuggingFace(
   try {
     // Use a fast, small model suitable for free tier.
     // google/flan-t5-small is always available on free tier (fallback to gpt2 if needed)
-    const model = 'google/flan-t5-small'; // Small, fast, reliable on free tier
-    // Use the router endpoint (api-inference.huggingface.co is deprecated)
-    const url = `https://router.huggingface.co/models/${model}`;
+      // Try a list of models sequentially until one works.
+      // Some models are gated or not hosted on the HF Router; we'll attempt fallbacks.
+      const candidateModels = [
+        'google/flan-t5-small',
+        'gpt2',
+        'distilgpt2'
+      ];
 
-    const fetchRes = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${hfKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        inputs: message,
-        parameters: {
-          max_new_tokens: 256,
-          temperature: 0.2,
-        },
-      }),
-    });
+      let fetchRes: Response | null = null;
+      let usedModel: string | null = null;
+      let raw: unknown = null;
 
-    // Diagnostic: log response status (do not log token)
-    console.log('[api/gemini] hf.fetch.status=', fetchRes.status);
+      for (const candidate of candidateModels) {
+        const url = `https://router.huggingface.co/models/${candidate}`;
+        try {
+          const r = await fetch(url, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${hfKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              inputs: message,
+              parameters: { max_new_tokens: 256, temperature: 0.2 },
+            }),
+          });
 
-    if (!fetchRes.ok) {
-      const error = await fetchRes.json().catch(() => ({ status: fetchRes.status }));
-      console.error('[api/gemini] HF API error:', error);
-      return res.status(fetchRes.status).json({ error: 'Hugging Face API error', details: error });
-    }
+          console.log('[api/gemini] hf.fetch.attempt=', candidate, 'status=', r.status);
 
-    const data = (await fetchRes.json()) as Array<Record<string, unknown>>;
-    let text = '';
-    if (Array.isArray(data) && data.length > 0 && typeof (data[0] as Record<string, unknown>)?.generated_text === 'string') {
-      text = (data[0] as Record<string, unknown>)?.generated_text as string;
-    } else if (data && typeof data === 'object' && typeof (data as any).generated_text === 'string') {
-      text = (data as any).generated_text;
-    } else if (data && typeof data === 'object' && typeof (data as any).output === 'string') {
-      // Some router responses may use 'output'
-      text = (data as any).output;
-    } else if (data && typeof data === 'object' && (data as any).error) {
-      console.error('[api/gemini] HF response error:', (data as any).error);
-      return res.status(502).json({ error: 'Hugging Face error', details: (data as any).error });
-    } else {
-      text = JSON.stringify(data);
-    }
+          // If model not found, try next candidate
+          if (r.status === 404) {
+            console.warn('[api/gemini] hf model not found:', candidate);
+            continue;
+          }
 
-    return res.status(200).json({ ok: true, text });
+          fetchRes = r;
+          usedModel = candidate;
+          break;
+        } catch (err) {
+          console.error('[api/gemini] hf.fetch.exception for', candidate, err instanceof Error ? err.message : String(err));
+          // try next candidate
+        }
+      }
+
+      if (!fetchRes || !usedModel) {
+        console.error('[api/gemini] HF: no working model found from candidates');
+        return res.status(502).json({ error: 'Hugging Face: no available model' });
+      }
+
+      // Diagnostic: log which model succeeded (non-secret)
+      console.log('[api/gemini] hf.model_used=', usedModel);
+
+      // Diagnostic: log response status (do not log token)
+      console.log('[api/gemini] hf.fetch.status=', fetchRes.status);
+
+      if (!fetchRes.ok) {
+        const error = await fetchRes.json().catch(() => ({ status: fetchRes.status }));
+        console.error('[api/gemini] HF API error:', error);
+        return res.status(fetchRes.status).json({ error: 'Hugging Face API error', details: error });
+      }
+
+      // Parse response shape(s) from Router
+      raw = await fetchRes.json().catch(() => null);
   } catch (hfErr: unknown) {
     const errorMsg = hfErr instanceof Error ? hfErr.message : String(hfErr);
     console.error('[api/gemini] Hugging Face proxy error:', errorMsg);
