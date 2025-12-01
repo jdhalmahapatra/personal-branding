@@ -112,7 +112,7 @@ const App: React.FC = () => {
               </h1>
               
               <p className="text-lg md:text-xl text-slate-400 mb-8 max-w-lg leading-relaxed animate-slide-up delay-100">
-                Unlocking Business Potential with <span className="text-primary-400 font-semibold">Cloud & AI</span>. Specializing in Agentic AI, Low-Code Solutions, and Intelligent Distributed Systems.
+                Unlocking Business Potential with <span className="text-primary-400 font-semibold">Salesforce, Cloud & AI</span>. Specializing in Agentic AI, Low-Code Solutions, and Intelligent Distributed Systems.
               </p>
               
               <div className="flex flex-wrap gap-4 animate-slide-up delay-200">
@@ -272,7 +272,7 @@ const App: React.FC = () => {
               </div>
               <h3 className="text-xl font-bold text-white mb-4 font-display">Salesforce & Low-Code</h3>
               <div className="space-y-3">
-                 {SKILLS[2].skills.slice(0, 5).map(skill => (
+                 {SKILLS[2].skills.map(skill => (
                    <div key={skill} className="flex items-center gap-2 text-slate-400 text-sm">
                      <Cloud size={14} className="text-indigo-500" />
                      {skill}
@@ -285,7 +285,7 @@ const App: React.FC = () => {
               <div className="w-12 h-12 bg-pink-900/20 rounded-xl flex items-center justify-center mb-6 text-pink-400 group-hover:scale-110 transition-transform">
                 <Server size={24} />
               </div>
-              <h3 className="text-xl font-bold text-white mb-4 font-display">Cloud Architecture</h3>
+              <h3 className="text-xl font-bold text-white mb-4 font-display">Enterprise Architecture</h3>
                <div className="flex flex-wrap gap-2">
                  {SKILLS[1].skills.map(skill => (
                    <span key={skill} className="px-3 py-1 bg-slate-800 text-slate-300 text-xs rounded-full border border-slate-700">
@@ -311,6 +311,19 @@ const App: React.FC = () => {
                    <div key={skill} className="bg-slate-800/50 p-2 rounded text-center text-xs text-slate-300 border border-slate-700/50">
                      {skill}
                    </div>
+                ))}
+              </div>
+            </div>
+            <div className="md:col-span-3 bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-sky-500/30 transition-colors group">
+              <div className="w-12 h-12 bg-sky-900/20 rounded-xl flex items-center justify-center mb-6 text-sky-400 group-hover:scale-110 transition-transform">
+                <Code2 size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-4 font-display">Programming Languages & Frameworks</h3>
+              <div className="flex flex-wrap gap-2">
+                {SKILLS[4].skills.map(skill => (
+                  <span key={skill} className="px-3 py-1 bg-slate-800 text-slate-300 text-xs rounded-full border border-slate-700">
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>

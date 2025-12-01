@@ -10,7 +10,7 @@ export const PERSONAL_INFO = {
   email: "jyotiraditya12@hotmail.com",
   github: "https://github.com/jdhalmahapatra",
   linkedin: "https://www.linkedin.com/in/jyotiradityadhalmahapatra/",
-  summary: `Senior Technical Architect and LJMU Alumni (MS in CS) with 14+ years of expertise. I specialize in unlocking business potential through Cloud, Agentic AI, and Low-Code/No-Code solutions. A Microsoft & Salesforce Certified professional dedicated to designing intelligent, scalable distributed systems and driving digital transformation.`
+  summary: `Senior Technical Architect and Liverpool John Moores University, UK alumnus with 14+ years of experience. I help businesses grow using Cloud, Agentic AI, and Low-Code or No-Code platforms. I hold Microsoft and Salesforce certifications. I design intelligent, scalable distributed systems and lead digital transformation with clear, measurable outcomes.`
 };
 
 export const SKILLS: SkillCategory[] = [

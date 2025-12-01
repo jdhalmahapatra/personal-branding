@@ -60,7 +60,7 @@ const FAQ_ENTRIES: Array<{ question: string; answer: string; keywords: string[] 
   },
   {
     "question": "What certifications do you have?",
-    "answer": "I hold AWS Solutions Architect Associate, Salesforce Platform Developer I, and multiple technical certifications and university qualifications.",
+    "answer": "I hold Azure Cloud, Salesforce Platform Administrator, App Builder, Platform Developer I certifications, and multiple technical certifications and university qualifications.",
     "keywords": ["certifications", "aws", "salesforce", "credentials"]
   },
   {
