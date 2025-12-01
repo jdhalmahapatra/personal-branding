@@ -144,7 +144,7 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 relative animate-float">
+            <div className="order-1 lg:order-2 relative animate-bounce-soft">
                <div className="relative z-10 glass-card p-6 rounded-2xl border border-slate-700 shadow-2xl">
                  <div className="flex items-center gap-2 mb-4 border-b border-slate-700 pb-4">
                    <div className="flex gap-1.5">

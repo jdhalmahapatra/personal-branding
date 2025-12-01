@@ -4,12 +4,12 @@ export const PERSONAL_INFO = {
   name: "Jyotiraditya Dhalmahapatra",
   shortName: "JD",
   title: "Senior Technical Architect",
-  tagline: "Unlocking Business Potential with Cloud & AI | Building Intelligent Agents",
+  tagline: "Unlocking Business Potential with Salesforce, Cloud & AI | Building Intelligent Agents",
   experienceYears: 14,
   location: "Global / Remote",
-  email: "contact@example.com",
+  email: "jyotiraditya12@hotmail.com",
   github: "https://github.com/jdhalmahapatra",
-  linkedin: "https://linkedin.com/in/jdhalmahapatra",
+  linkedin: "https://www.linkedin.com/in/jyotiradityadhalmahapatra/",
   summary: `Senior Technical Architect and LJMU Alumni (MS in CS) with 14+ years of expertise. I specialize in unlocking business potential through Cloud, Agentic AI, and Low-Code/No-Code solutions. A Microsoft & Salesforce Certified professional dedicated to designing intelligent, scalable distributed systems and driving digital transformation.`
 };
 
@@ -24,11 +24,15 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     category: "Salesforce & Low-Code",
-    skills: ["Salesforce Clouds", "Apex & LWC", "Power Platform", "Low-Code/No-Code Strategy", "CRM Integration", "Business Automation"]
+    skills: ["Salesforce Clouds", "Apex & LWC", "Omnistudio", "Low-Code/No-Code Strategy", "CRM Integration", "Business Automation"]
   },
   {
     category: "Cloud & DevOps",
     skills: ["Azure", "AWS", "Google Cloud", "Kubernetes", "CI/CD Pipelines", "Terraform", "Docker"]
+  },
+  {
+    category: "Programming Languages & Frameworks",
+    skills: [".NET", "Swift", "JavaScript", "Python", "Objective-C", "Node.js", "React"]
   }
 ];
 
