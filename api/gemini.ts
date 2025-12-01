@@ -144,12 +144,7 @@ async function handleHuggingFace(
         ? [envModel]
         : [
             // Preferred free/open models to try (in order)
-            'google/flan-t5-base',
-            'google/flan-t5-small',
-            'gpt2',
-            'distilgpt2',
-            'facebook/bart-large-cnn',
-            't5-small',
+            'meta-llama/Llama-3.1-8B-Instruct'
           ];
 
       let fetchRes: Response | null = null;
