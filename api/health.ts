@@ -1,3 +1,19 @@
+// Simple health/check endpoint to inspect environment and verify serverless functions
+export default function handler(req: any, res: any) {
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET');
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const env = {
+    VITE_USE_FAQ: process.env.VITE_USE_FAQ ?? null,
+    HF_API_KEY: !!process.env.HF_API_KEY,
+    GCP_SA_KEY: !!process.env.GCP_SA_KEY,
+    LOCAL_FAKE_GEMINI: !!process.env.LOCAL_FAKE_GEMINI,
+  };
+
+  return res.status(200).json({ ok: true, env });
+}
 // Minimal Vercel serverless function to check whether required env vars exist.
 // This returns only boolean flags, never prints or returns the secret values.
 

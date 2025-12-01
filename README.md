@@ -104,6 +104,32 @@ npm run dev
 
 If you want, I can provide a small `vercel.json` with recommended function/runtime settings, or add a local `dev` script to emulate the serverless function locally with `vercel dev`.
 
+## Local dev helper
+
+I've added a convenience npm script to run Vercel's local dev server for serverless functions:
+
+```bash
+npm run dev:api
+```
+
+This runs `vercel dev` and serves `api/*` functions locally. If you prefer to run both the Vite dev server and Vercel dev in parallel, run the two commands in separate terminals.
+
+## Quick Deploy Checklist
+
+- Ensure your project is connected to Vercel (import from GitHub) and the repository is the one you push to.
+- Add environment variables in Vercel Project Settings:
+  - `VITE_USE_FAQ=1` (if you want the built frontend to use the FAQ)
+  - `HF_API_KEY` and/or `GCP_SA_KEY` only if you plan to use them in serverless functions (do NOT prefix secrets with `VITE_`).
+- Push to your repo (e.g., `main`) and monitor the Vercel deployment logs to confirm build and function availability.
+
+You can also check the `api/health` endpoint after deployment to confirm which envs are present:
+
+```
+GET https://<your-deploy-url>/api/health
+```
+
+The endpoint returns a small JSON object showing which environment flags are present on the server.
+
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
