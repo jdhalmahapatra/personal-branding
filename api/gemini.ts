@@ -138,7 +138,8 @@ async function handleHuggingFace(
     // Use a fast, small model suitable for free tier.
     // Options: "meta-llama/Llama-2-7b-chat-hf", "mistralai/Mistral-7B-Instruct-v0.1", etc.
     const model = 'mistralai/Mistral-7B-Instruct-v0.1'; // Fast, free-tier friendly
-    const url = `https://api-inference.huggingface.co/models/${model}`;
+    // Use the router endpoint (api-inference.huggingface.co is deprecated)
+    const url = `https://router.huggingface.co/models/${model}`;
 
     const fetchRes = await fetch(url, {
       method: 'POST',
@@ -168,6 +169,14 @@ async function handleHuggingFace(
     let text = '';
     if (Array.isArray(data) && data.length > 0 && typeof (data[0] as Record<string, unknown>)?.generated_text === 'string') {
       text = (data[0] as Record<string, unknown>)?.generated_text as string;
+    } else if (data && typeof data === 'object' && typeof (data as any).generated_text === 'string') {
+      text = (data as any).generated_text;
+    } else if (data && typeof data === 'object' && typeof (data as any).output === 'string') {
+      // Some router responses may use 'output'
+      text = (data as any).output;
+    } else if (data && typeof data === 'object' && (data as any).error) {
+      console.error('[api/gemini] HF response error:', (data as any).error);
+      return res.status(502).json({ error: 'Hugging Face error', details: (data as any).error });
     } else {
       text = JSON.stringify(data);
     }
@@ -175,7 +184,7 @@ async function handleHuggingFace(
     return res.status(200).json({ ok: true, text });
   } catch (hfErr: unknown) {
     const errorMsg = hfErr instanceof Error ? hfErr.message : String(hfErr);
-    console.error('Hugging Face proxy error:', errorMsg);
+    console.error('[api/gemini] Hugging Face proxy error:', errorMsg);
     return res.status(500).json({ error: 'Internal server error', details: errorMsg });
   }
 }
