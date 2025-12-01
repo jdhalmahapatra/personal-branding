@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-md bg-slate-900/40 border border-slate-700/50;
+  }
+
+  .glass-nav {
+    @apply backdrop-blur-lg bg-slate-950/60 border-b border-slate-800/50;
+  }
+
+  .bg-grid-slate {
+    @apply bg-[length:40px_40px];
+    background-image: 
+      linear-gradient(to right, rgba(100, 116, 139, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(100, 116, 139, 0.1) 1px, transparent 1px);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @apply bg-slate-950 text-slate-200 font-sans;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.7);
+}
