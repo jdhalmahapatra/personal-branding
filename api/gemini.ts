@@ -35,8 +35,8 @@ export default async function handler(
     return res.status(200).json({ ok: true, text: `Mock reply: I received your message: ${message}` });
   }
 
-  const saKey = process.env.GCP_SA_KEY;
-  const hfKey = process.env.HF_API_KEY;
+  const saKey: string | undefined = typeof process.env.GCP_SA_KEY === 'string' ? process.env.GCP_SA_KEY : undefined;
+  const hfKey: string | undefined = typeof process.env.HF_API_KEY === 'string' ? process.env.HF_API_KEY : undefined;
 
   // Try GCP first if available
   if (saKey) {
