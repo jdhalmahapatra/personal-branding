@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCasesData } from '../../data/useCasesData';
 import type { Post } from '../../data/useCasesData';
 import PostCard from '../../components/showcase/PostCard';
@@ -12,6 +13,7 @@ interface UseCasesProps {
 }
 
 const UseCases: React.FC<UseCasesProps> = ({ initialBlogSlug }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
@@ -68,12 +70,9 @@ const UseCases: React.FC<UseCasesProps> = ({ initialBlogSlug }) => {
     setHasMore(filteredPosts.length > endIndex);
   };
 
-  const openPost = (post: Post) => {
-    setSelectedPost(post);
-  };
-
   const closePost = () => {
     setSelectedPost(null);
+    navigate('/showcase?view=usecases');
   };
 
   return (
@@ -123,7 +122,7 @@ const UseCases: React.FC<UseCasesProps> = ({ initialBlogSlug }) => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {posts.map(post => (
-              <PostCard key={post.id} post={post} onClick={() => openPost(post)} />
+              <PostCard key={post.id} post={post} />
             ))}
           </div>
           {posts.length === 0 && (

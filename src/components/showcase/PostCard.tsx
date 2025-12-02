@@ -6,10 +6,9 @@ import { ArrowRight, Calendar, Tag } from 'lucide-react';
 
 interface PostCardProps {
   post: Post;
-  onClick: () => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
   return (
     <Link
       to={`/blog/${post.slug}`}
