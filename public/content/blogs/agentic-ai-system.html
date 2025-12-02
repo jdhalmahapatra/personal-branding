@@ -1,0 +1,13 @@
+<h2>The Rise of Agentic AI</h2>
+
+<p>Agentic AI represents a significant shift from traditional machine learning models. Instead of simply predicting or classifying, agentic systems can <em>act</em>. They can perform tasks, make decisions, and interact with their environment to achieve goals. This requires a more complex architecture that goes beyond a single model.</p>
+
+<p>At the core of an agentic system is a reasoning loop, often powered by a Large Language Model (LLM). This loop typically involves a series of steps:</p>
+
+<ol>
+  <li><strong>Observation</strong>: The agent gathers information about its current state and environment.</li>
+  <li><strong>Thought</strong>: Based on the observation and its goals, the agent thinks about what to do next. This might involve breaking down a problem, weighing options, or formulating a plan.</li>
+  <li><strong>Action</strong>: The agent executes a chosen action. This could be calling an API, running a script, or generating a response.</li>
+</ol>
+
+<p>This "ReAct" (Reason + Act) framework is a powerful paradigm for building agents. Frameworks like LangChain and LlamaIndex provide tools and abstractions to make building these systems easier. We utilized LangChain to orchestrate multiple tools, including a search API and a code interpreter, allowing the agent to dynamically decide which tool to use based on the user's query. The result was a flexible system that could answer questions, write code, and even perform simple data analysis tasks.</p>
