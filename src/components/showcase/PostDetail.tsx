@@ -1,9 +1,7 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Calendar, Tag } from 'lucide-react';
 import type { Post } from '../../data/useCasesData';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 interface PostDetailProps {
   post: Post;
@@ -11,35 +9,57 @@ interface PostDetailProps {
 }
 
 const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
+  const [content, setContent] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const response = await fetch(post.contentPath);
+        const html = await response.text();
+        setContent(html);
+      } catch (error) {
+        console.error('Error loading blog content:', error);
+        setContent('<p>Error loading content</p>');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContent();
+  }, [post.contentPath]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in"
-      onClick={onClose}
+      className="fixed inset-0 bg-slate-950 z-50 flex flex-col overflow-hidden animate-fade-in"
       aria-modal="true"
       role="dialog"
     >
-      <div
-        className="relative bg-slate-900 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 text-white hover:text-primary-400 transition-colors z-50 p-2"
+        aria-label="Close"
       >
-        <div className="p-8 overflow-y-auto">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-white hover:text-primary-400 transition-colors z-10"
-            aria-label="Close"
-          >
-            <X size={28} />
-          </button>
+        <X size={32} />
+      </button>
 
-          <h1 className="text-4xl font-bold text-white mb-4 font-display">{post.title}</h1>
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto px-8 pt-16 pb-12">
+          <h1 className="text-4xl font-bold text-white mb-2 font-display">{post.title}</h1>
+
+          <p className="text-sm text-slate-400 mb-6">Published by: {post.author}</p>
 
           <div className="flex items-center gap-4 text-sm text-slate-400 mb-6">
             <div className="flex items-center gap-2">
@@ -57,9 +77,13 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onClose }) => {
             ))}
           </div>
           
-          <div className="prose prose-invert prose-lg max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
-          </div>
+          {loading ? (
+            <div className="py-8 text-center text-slate-400">
+              <p>Loading content...</p>
+            </div>
+          ) : (
+            <div className="prose prose-invert prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: content }} />
+          )}
         </div>
       </div>
     </div>

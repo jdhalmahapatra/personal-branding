@@ -166,6 +166,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/showcase" element={<Showcase />} />
+        <Route path="/blog/:slug" element={<Showcase />} />
       </Routes>
 
       {/* Main Content - Show on home page only */}

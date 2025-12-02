@@ -1,21 +1,26 @@
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams } from 'react-router-dom';
 import Gallery from './Gallery';
 import UseCases from './UseCases';
 
 const Showcase: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeView, setActiveView] = useState<'gallery' | 'usecases'>('gallery');
+  const { slug } = useParams<{ slug?: string }>();
 
   useEffect(() => {
-    const view = searchParams.get('view');
-    if (view === 'usecases') {
+    if (slug) {
       setActiveView('usecases');
     } else {
-      setActiveView('gallery');
+      const view = searchParams.get('view');
+      if (view === 'usecases') {
+        setActiveView('usecases');
+      } else {
+        setActiveView('gallery');
+      }
     }
-  }, [searchParams]);
+  }, [searchParams, slug]);
 
   const handleToggle = (view: 'gallery' | 'usecases') => {
     setActiveView(view);
@@ -58,7 +63,7 @@ const Showcase: React.FC = () => {
         </div>
 
         <main className="animate-fade-in">
-          {activeView === 'gallery' ? <Gallery /> : <UseCases />}
+          {activeView === 'gallery' ? <Gallery /> : <UseCases initialBlogSlug={slug} />}
         </main>
       </div>
     </div>

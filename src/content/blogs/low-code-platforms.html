@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Power of Low-Code Platforms | Technical Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #020817;
+      --bg-secondary: #0F172A;
+      --bg-card: #1E293B;
+      --text-primary: #E2E8F0;
+      --text-secondary: #94A3B8;
+      --accent: #0EA5E9;
+      --accent-hover: #0284C7;
+      --border: #334155;
+      --gradient: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 0 3rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .meta {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 3rem 0 1.5rem;
+      color: var(--text-primary);
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    h3 {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    ul {
+      margin: 1.5rem 0;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.15);
+    }
+
+    .use-case {
+      background: var(--bg-card);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 8px;
+    }
+
+    .use-case h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .use-case-label {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg-secondary);
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      color: var(--text-secondary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .highlight-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .tip-box {
+      background: var(--bg-card);
+      border-left: 4px solid var(--accent);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+    }
+
+    .tip-box strong {
+      color: var(--accent);
+    }
+
+    .image-placeholder {
+      background: var(--bg-secondary);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 3rem;
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--text-secondary);
+    }
+
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 3rem 0;
+    }
+
+    .author-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .author-section h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+
+    .cta-button:hover {
+      background: var(--accent-hover);
+    }
+
+    code {
+      background: var(--bg-secondary);
+      color: #38BDF8;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        padding: 2rem 0;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th,
+      td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(14, 165, 233, 0.2);
+      color: var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .platform-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+      <h2>Introduction</h2>
+      <p>Low-code platforms are visual development environments that enable you to build applications through
+        drag-and-drop interfaces, pre-built components, and declarative configurations—with minimal hand-coding. They're
+        not about eliminating code entirely; they're about reducing the boilerplate, accelerating delivery, and
+        democratizing development across technical skill levels.</p>
+
+      <p>After building enterprise solutions on Salesforce, Power Platform, OutSystems, and traditional stacks, I've
+        seen firsthand how low-code changes the economics and velocity of software delivery. But it's not a silver
+        bullet. Understanding where low-code excels and where it falls short is critical for making sound architectural
+        decisions.</p>
+    </section>
+
+    <section>
+      <h2>What Low-Code Actually Means</h2>
+      <p>At its core, a low-code platform provides:</p>
+
+      <div class="card">
+        <ul>
+          <li><strong>Visual Designers:</strong> Build UIs, workflows, and data models through graphical interfaces</li>
+          <li><strong>Pre-Built Components:</strong> Reusable modules for common patterns (forms, approvals,
+            notifications)</li>
+          <li><strong>Integration Layers:</strong> Native connectors to databases, APIs, SaaS platforms</li>
+          <li><strong>Deployment Automation:</strong> One-click deployments with built-in versioning and rollback</li>
+          <li><strong>Governance Tools:</strong> Role-based access, audit logs, compliance frameworks</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <p>Think of it as building with Lego blocks instead of manufacturing your own bricks. You still need
+          architectural vision, but you're assembling rather than fabricating from scratch.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Build vs Buy vs Assemble Decision</h2>
+      <p>Modern software delivery isn't binary. It's a spectrum:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Approach</th>
+            <th>When to Use</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Build</strong></td>
+            <td>Unique business logic, competitive differentiation, full control required</td>
+            <td>Custom recommendation engine, proprietary trading algorithms</td>
+          </tr>
+          <tr>
+            <td><strong>Buy</strong></td>
+            <td>Commodity functionality, well-established market solutions</td>
+            <td>Email services (SendGrid), payment processing (Stripe)</td>
+          </tr>
+          <tr>
+            <td><strong>Assemble (Low-Code)</strong></td>
+            <td>Internal tools, workflows, rapid prototyping, integration-heavy solutions</td>
+            <td>Employee onboarding portals, approval workflows, dashboard consolidation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Low-code sits in the "assemble" category. You're orchestrating pre-built capabilities rather than writing
+        everything from scratch. This works exceptionally well when:</p>
+
+      <ul>
+        <li>Business logic changes frequently</li>
+        <li>Time-to-market is critical</li>
+        <li>Multiple systems need integration</li>
+        <li>Citizen developers (business analysts, power users) can contribute</li>
+        <li>Governance and compliance are non-negotiable</li>
+      </ul>
+
+      <div class="highlight-box">
+        <p><strong>Key Question:</strong> Does this application differentiate our business, or does it support our
+          business?</p>
+        <p>If it's the latter, low-code is likely the right choice.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Real-World Use Cases</h2>
+
+      <div class="use-case">
+        <span class="use-case-label">USE CASE #1</span>
+        <h3>Employee Onboarding System (Power Apps + Power Automate)</h3>
+
+        <p><strong>Problem:</strong> HR team was using email chains and Excel sheets to onboard new hires. Process took
+          3 weeks, with frequent missed steps.</p>
+
+        <p><strong>Solution:</strong> Built a Power Apps canvas app that:</p>
+        <ul>
+          <li>Captured new hire data (single source of truth)</li>
+          <li>Triggered Power Automate flows for IT provisioning, badge creation, training enrollment</li>
+          <li>Sent automated reminders to stakeholders</li>
+          <li>Generated onboarding dashboards for managers</li>
+        </ul>
+
+        <p><strong>Outcome:</strong> Onboarding reduced to 5 days. IT saved 40 hours/month on manual provisioning. Built
+          in 3 weeks by an HR business analyst with minimal IT support.</p>
+      </div>
+
+      <div class="use-case">
+        <span class="use-case-label">USE CASE #2</span>
+        <h3>Field Service Management (Salesforce Field Service Lightning)</h3>
+
+        <p><strong>Problem:</strong> Field technicians used paper forms and phone calls to update job status.
+          Dispatchers had no real-time visibility.</p>
+
+        <p><strong>Solution:</strong> Configured Salesforce Field Service with:</p>
+        <ul>
+          <li>Mobile app for technicians (offline-capable)</li>
+          <li>Automated scheduling and routing</li>
+          <li>Integration with ERP for parts inventory</li>
+          <li>Custom Lightning components for industry-specific workflows</li>
+        </ul>
+
+        <p><strong>Outcome:</strong> 30% improvement in first-time fix rate. Real-time job tracking. Minimal custom
+          code—mostly configuration and Flow Builder.</p>
+      </div>
+
+      <div class="use-case">
+        <span class="use-case-label">USE CASE #3</span>
+        <h3>Insurance Claims Processing (Mendix)</h3>
+
+        <p><strong>Problem:</strong> Legacy claims system was inflexible. Adding new product lines required 6-month
+          development cycles.</p>
+
+        <p><strong>Solution:</strong> Built claims intake and adjudication system in Mendix:</p>
+        <ul>
+          <li>Microflows for business rules (modifiable by business analysts)</li>
+          <li>Integration with policy admin system via REST APIs</li>
+          <li>Custom Java actions for complex calculations</li>
+          <li>Responsive web UI for claims adjusters</li>
+        </ul>
+
+        <p><strong>Outcome:</strong> New product launch time reduced from 6 months to 3 weeks. Business users could
+          modify workflows without deploying code.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Low-Code vs Traditional Development</h2>
+      <p>Let's be honest about the tradeoffs:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Low-Code</th>
+            <th>Traditional Development</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Speed to MVP</strong></td>
+            <td>Days to weeks</td>
+            <td>Weeks to months</td>
+          </tr>
+          <tr>
+            <td><strong>Learning Curve</strong></td>
+            <td>Moderate (platform-specific)</td>
+            <td>Steep (language, frameworks, tooling)</td>
+          </tr>
+          <tr>
+            <td><strong>Flexibility</strong></td>
+            <td>Constrained by platform capabilities</td>
+            <td>Unlimited (you control everything)</td>
+          </tr>
+          <tr>
+            <td><strong>Scalability</strong></td>
+            <td>Good for <10K concurrent users; varies by platform</td>
+            <td>Excellent (with proper architecture)</td>
+          </tr>
+          <tr>
+            <td><strong>Cost</strong></td>
+            <td>Per-user licensing + platform fees</td>
+            <td>Infrastructure + developer salaries</td>
+          </tr>
+          <tr>
+            <td><strong>Maintenance</strong></td>
+            <td>Platform handles updates; breaking changes possible</td>
+            <td>You own it; technical debt accumulates</td>
+          </tr>
+          <tr>
+            <td><strong>Talent Pool</strong></td>
+            <td>Growing; platform certifications common</td>
+            <td>Deep and mature</td>
+          </tr>
+          <tr>
+            <td><strong>Exit Risk</strong></td>
+            <td>Vendor lock-in (migration is painful)</td>
+            <td>Portable (with good practices)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card">
+        <h3>When Traditional Wins:</h3>
+        <ul>
+          <li>High-transaction systems (>100K requests/sec)</li>
+          <li>Complex algorithms or data processing</li>
+          <li>Pixel-perfect UX requirements</li>
+          <li>Regulatory environments requiring source code escrow</li>
+        </ul>
+
+        <h3>When Low-Code Wins:</h3>
+        <ul>
+          <li>Workflow automation</li>
+          <li>CRUD-heavy applications</li>
+          <li>Rapid prototyping</li>
+          <li>Integration orchestration</li>
+          <li>Empowering non-developers</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Architecture Considerations</h2>
+      <p>Low-code doesn't mean no architecture. In fact, poor architectural choices are amplified in low-code
+        environments because they're harder to refactor.</p>
+
+      <img src="https://ik.imagekit.io/kzdofyvh6/gemini-2.5-flash-image-preview%20(nano-banana)_a_Create_a_simple,_cle.png" alt="Low-Code Architecture Pattern" style="width: 100%; max-width: 100%; height: auto; border-radius: 12px; margin: 2rem 0;">
+
+      <div class="card">
+        <h3>Key Principles:</h3>
+
+        <p><strong>1. API-First Design:</strong> Treat your low-code apps as API consumers. Build robust backend
+          services that low-code platforms orchestrate.</p>
+
+        <p><strong>2. Data Residency:</strong> Understand where data lives. Salesforce stores data in multi-tenant
+          databases. Power Apps can use Dataverse or external sources. Plan accordingly for compliance (GDPR, HIPAA).
+        </p>
+
+        <p><strong>3. Integration Patterns:</strong> Use middleware (MuleSoft, Azure Logic Apps, Boomi) for complex
+          integrations. Don't build point-to-point connections between every system.</p>
+
+        <p><strong>4. Security Boundaries:</strong> Low-code platforms have their own identity systems. Integrate with
+          enterprise SSO (SAML, OAuth). Apply principle of least privilege ruthlessly.</p>
+
+        <p><strong>5. Version Control:</strong> Even visual development needs versioning. Use platform-native source
+          control (Salesforce DX, Power Platform ALM) or extract metadata to Git.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Risks and Governance</h2>
+      <p>Low-code democratizes development, which is powerful—and dangerous.</p>
+
+      <h3>Shadow IT Risk</h3>
+      <p><strong>Problem:</strong> Business units spin up apps without IT oversight. Data sprawls. Security policies
+        are bypassed.</p>
+
+      <p><strong>Mitigation:</strong></p>
+      <ul>
+        <li>Establish a Center of Excellence (CoE)</li>
+        <li>Require architecture review for apps handling sensitive data</li>
+        <li>Use platform governance tools (Power Platform DLP policies, Salesforce Shield)</li>
+        <li>Implement tiered approval processes (departmental vs enterprise apps)</li>
+      </ul>
+
+      <h3>Technical Debt</h3>
+      <p><strong>Problem:</strong> Visual development can create unmaintainable spaghetti. Flows with 50+ steps. No
+        comments. No testing.</p>
+
+      <p><strong>Mitigation:</strong></p>
+      <ul>
+        <li>Enforce coding standards (yes, even for low-code)</li>
+        <li>Mandate documentation and peer review</li>
+        <li>Build automated testing into deployment pipelines (Selenium for UI, Postman for APIs)</li>
+        <li>Regularly audit and refactor</li>
+      </ul>
+
+      <h3>Vendor Lock-In</h3>
+      <p><strong>Problem:</strong> Migrating a complex Salesforce org or Power Platform environment to another
+        platform is nearly impossible.</p>
+
+      <p><strong>Mitigation:</strong></p>
+      <ul>
+        <li>Keep business logic in backend services where feasible</li>
+        <li>Use abstraction layers for integrations</li>
+        <li>Evaluate exit costs before commitment</li>
+        <li>Maintain architectural decision records (ADRs)</li>
+      </ul>
+
+      <h3>Performance Bottlenecks</h3>
+      <p><strong>Problem:</strong> Low-code platforms have governor limits (Salesforce) or performance ceilings.</p>
+
+      <p><strong>Mitigation:</strong></p>
+      <ul>
+        <li>Load test early</li>
+        <li>Use asynchronous processing for bulk operations</li>
+        <li>Offload heavy compute to backend services</li>
+        <li>Monitor platform metrics (API calls, storage, concurrent users)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What This Means for Your Engineering Team</h2>
+
+      <h3>For Junior Developers</h3>
+      <p>Low-code is a powerful entry point. You'll learn:</p>
+      <ul>
+        <li>Application architecture without getting lost in syntax</li>
+        <li>Integration patterns and API design</li>
+        <li>Business process modeling</li>
+        <li>Deployment and DevOps practices</li>
+      </ul>
+
+      <div class="tip-box">
+        <p><strong>Pro Tip:</strong> Don't stop at low-code. Learn a general-purpose language (Python, Java, C#) in
+          parallel. Understanding what happens "under the hood" makes you a better low-code developer.</p>
+      </div>
+
+      <h3>For Mid-Level Engineers</h3>
+      <p>You're the bridge between business and code. Low-code lets you:</p>
+      <ul>
+        <li>Prototype faster (validate requirements before committing to custom builds)</li>
+        <li>Offload routine work to business analysts</li>
+        <li>Focus on complex problems that require traditional development</li>
+      </ul>
+
+      <div class="tip-box">
+        <p><strong>Pro Tip:</strong> Become the low-code SME on your team. Platform certifications (Salesforce
+          Administrator, Power Platform Developer) are valuable and achievable in weeks.</p>
+      </div>
+
+      <h3>For Senior Architects</h3>
+      <p>Low-code changes your portfolio strategy:</p>
+      <ul>
+        <li>Reserve your best developers for high-value, differentiating work</li>
+        <li>Use low-code for the "middle layer" (orchestration, UIs, workflows)</li>
+        <li>Build robust APIs that low-code apps consume</li>
+        <li>Establish governance frameworks to prevent chaos</li>
+      </ul>
+
+      <div class="tip-box">
+        <p><strong>Pro Tip:</strong> Think in terms of "composable architecture." Low-code platforms are orchestration
+          layers. Your backend services are building blocks. Together, they enable speed and flexibility.</p>
+      </div>
+
+      <h3>For Engineering Managers</h3>
+      <p>Low-code shifts your economics:</p>
+      <ul>
+        <li>Smaller teams deliver more (leverage business analysts and citizen developers)</li>
+        <li>Faster feedback loops (show working prototypes in days)</li>
+        <li>Lower maintenance burden (platform handles infrastructure)</li>
+      </ul>
+
+      <div class="tip-box">
+        <p><strong>Pro Tip:</strong> Invest in training and CoE. The ROI on low-code comes from organizational
+          adoption, not just the technology.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common Misconceptions</h2>
+
+      <h3>"Low-code is only for simple apps"</h3>
+      <p><strong>False.</strong> ServiceNow runs mission-critical ITSM for Fortune 500 companies. Salesforce powers
+        entire revenue organizations. OutSystems handles complex B2B portals with millions of users.</p>
+
+      <h3>"Low-code means no developers"</h3>
+      <p><strong>False.</strong> You still need developers for custom components, integrations, performance tuning,
+        and architecture. Low-code reduces grunt work; it doesn't eliminate expertise.</p>
+
+      <h3>"Low-code is more expensive"</h3>
+      <p><strong>It depends.</strong> Per-user licensing adds up. But factor in developer salaries, infrastructure
+        costs, and time-to-market. For many use cases, low-code is cheaper.</p>
+
+      <h3>"Low-code locks you in forever"</h3>
+      <p><strong>True, but so does your custom codebase.</strong> Every technology decision creates inertia. The
+        question is: does the value outweigh the risk?</p>
+    </section>
+
+    <section>
+      <h2>Tooling Landscape (2025)</h2>
+      <p>Here's where major platforms excel:</p>
+
+      <div class="platform-list">
+        <span class="badge">Salesforce</span>
+        <span class="badge">Microsoft Power Platform</span>
+        <span class="badge">ServiceNow</span>
+        <span class="badge">OutSystems</span>
+        <span class="badge">Mendix</span>
+        <span class="badge">Appian</span>
+        <span class="badge">Retool</span>
+      </div>
+
+      <ul>
+        <li><strong>Salesforce:</strong> CRM, sales, marketing, service automation</li>
+        <li><strong>Microsoft Power Platform:</strong> Microsoft 365 integration, departmental apps, automation</li>
+        <li><strong>ServiceNow:</strong> IT service management, HR service delivery, workflow automation</li>
+        <li><strong>OutSystems:</strong> Complex web/mobile apps, legacy modernization</li>
+        <li><strong>Mendix:</strong> Enterprise apps, multi-experience development</li>
+        <li><strong>Appian:</strong> Process automation, case management</li>
+        <li><strong>Retool:</strong> Internal tools, admin panels</li>
+      </ul>
+
+      <p>Each has strengths. Salesforce owns CRM. Power Platform is unbeatable inside the Microsoft ecosystem.
+        OutSystems and Mendix handle complexity better than others.</p>
+
+      <p>Choose based on your existing ecosystem, use case, and team skills.</p>
+    </section>
+
+    <section>
+      <h2>Conclusion</h2>
+      <p>Low-code platforms are not a fad. They're a natural evolution in software development—raising the abstraction
+        layer, accelerating delivery, and making development accessible to more people.</p>
+
+      <p>But they're tools, not magic. Success requires:</p>
+      <ul>
+        <li>Clear architectural vision</li>
+        <li>Strong governance</li>
+        <li>Hybrid thinking (low-code + traditional dev)</li>
+        <li>Continuous learning</li>
+      </ul>
+
+      <p>The best engineering teams I've worked with use low-code strategically: rapid prototyping, workflow automation,
+        and integration orchestration. They reserve custom development for what truly differentiates the business.</p>
+
+      <div class="highlight-box">
+        <p>The question isn't "Should we use low-code?" It's "What's the right tool for this problem?"</p>
+        <p>And increasingly, low-code is the answer.</p>
+      </div>
+    </section>
+
+    <div class="author-section">
+      <h3>About the Author</h3>
+      <p>Senior Technical Architect with 14+ years building enterprise solutions on Salesforce, Azure, AWS, and custom
+        tech stacks. Certified in Salesforce, Microsoft Power Platform, and AWS. Passionate about pragmatic architecture
+        and empowering teams to ship faster.</p>
+      <a href="https://www.linkedin.com/in/jyotiradityadhalmahapatra/" target="_blank" class="cta-button">Connect on LinkedIn</a>
+    </div>
+</body>
+
+</html>

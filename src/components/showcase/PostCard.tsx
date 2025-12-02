@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { Post } from '../../data/useCasesData';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
 
@@ -10,8 +11,9 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
   return (
-    <div
-      className="group bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-primary-500/30 transition-all duration-300"
+    <Link
+      to={`/blog/${post.slug}`}
+      className="group bg-slate-900/50 border border-slate-800 rounded-2xl p-8 hover:border-primary-500/30 transition-all duration-300 block cursor-pointer"
       role="article"
     >
       <h3 className="text-2xl font-bold text-white mb-3 font-display group-hover:text-primary-400 transition-colors">
@@ -34,18 +36,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, onClick }) => {
           </div>
         ))}
       </div>
-      <button
-        onClick={onClick}
-        className="font-semibold text-primary-400 group-hover:text-white flex items-center gap-2 transition-colors"
-        aria-label={`Read more about ${post.title}`}
-      >
+      <div className="font-semibold text-primary-400 group-hover:text-white flex items-center gap-2 transition-colors">
         Read More
         <ArrowRight
           size={16}
           className="transform transition-transform duration-300 group-hover:translate-x-1"
         />
-      </button>
-    </div>
+      </div>
+    </Link>
   );
 };
 

@@ -7,7 +7,11 @@ import PostDetail from '../../components/showcase/PostDetail';
 import UseCasesSkeleton from '../../components/showcase/skeletons/UseCasesSkeleton';
 import { Search, Tag } from 'lucide-react';
 
-const UseCases: React.FC = () => {
+interface UseCasesProps {
+  initialBlogSlug?: string;
+}
+
+const UseCases: React.FC<UseCasesProps> = ({ initialBlogSlug }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
@@ -43,6 +47,15 @@ const UseCases: React.FC = () => {
       setLoading(false);
     }, 500);
   }, [filteredPosts]);
+
+  useEffect(() => {
+    if (initialBlogSlug && !loading) {
+      const blogPost = useCasesData.find(post => post.slug === initialBlogSlug);
+      if (blogPost) {
+        setSelectedPost(blogPost);
+      }
+    }
+  }, [initialBlogSlug, loading]);
 
   const loadMorePosts = () => {
     const nextPage = page + 1;
