@@ -1,15 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Github, Linkedin, Mail, ExternalLink, Code2, Server, Cloud, Cpu, Menu, X, ArrowRight, Download, Database, BrainCircuit, Box, Sparkles, Target, Zap } from 'lucide-react';
 import { PERSONAL_INFO, SKILLS, EXPERIENCE, PROJECTS } from './constants';
 import AIChat from './components/AIChat';
+import Showcase from './pages/showcase/Showcase';
+import HomePage from './components/HomePage';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isHome = location.pathname === '/';
 
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 20);
+    
+    if (!isHome) {
+      return;
+    }
     
     const sections = document.querySelectorAll('section');
     const scrollPos = window.scrollY + 200;
@@ -19,12 +30,39 @@ const App: React.FC = () => {
         setActiveSection(section.id);
       }
     });
-  }, []);
+  }, [isHome]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (!isHome) {
+      setActiveSection('');
+    }
+  }, [isHome]);
+
+  const handleSectionNavigation = (href: string) => {
+    if (href.startsWith('#')) {
+      const sectionId = href.substring(1);
+      
+      if (!isHome) {
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
 
   const navLinks = [
     { name: 'Overview', href: '#hero' },
@@ -32,6 +70,7 @@ const App: React.FC = () => {
     { name: 'Expertise', href: '#skills' },
     { name: 'Journey', href: '#experience' },
     { name: 'Works', href: '#projects' },
+    { name: 'Showcase', href: '/showcase' },
   ];
 
   return (
@@ -39,34 +78,51 @@ const App: React.FC = () => {
       
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="group flex items-center gap-2">
+          <button 
+            onClick={() => handleSectionNavigation('#hero')}
+            className="group flex items-center gap-2 cursor-pointer"
+          >
             <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center text-slate-950 font-bold font-display text-xl transform group-hover:rotate-12 transition-transform shadow-[0_0_15px_rgba(14,165,233,0.5)]">
               JD
             </div>
-          </a>
+          </button>
 
           <div className="hidden md:flex items-center gap-1">
             <div className="glass-card px-2 py-1.5 rounded-full flex items-center gap-1 mr-4">
               {navLinks.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                    activeSection === link.href.substring(1) 
-                      ? 'bg-primary-500/10 text-primary-400 shadow-[0_0_10px_rgba(56,189,248,0.2)]' 
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                  }`}
-                >
-                  {link.name}
-                </a>
+                <div key={link.name}>
+                  {link.href.startsWith('/') ? (
+                    <Link 
+                      to={link.href}
+                      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 inline-block ${
+                        location.pathname === link.href
+                          ? 'bg-primary-500/10 text-primary-400 shadow-[0_0_10px_rgba(56,189,248,0.2)]' 
+                          : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <button 
+                      onClick={() => handleSectionNavigation(link.href)}
+                      className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 inline-block ${
+                        activeSection === link.href.substring(1) 
+                          ? 'bg-primary-500/10 text-primary-400 shadow-[0_0_10px_rgba(56,189,248,0.2)]' 
+                          : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                      }`}
+                    >
+                      {link.name}
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
-            <a 
-              href="#contact"
+            <button 
+              onClick={() => handleSectionNavigation('#contact')}
               className="px-5 py-2.5 text-sm font-semibold bg-white text-slate-950 rounded-full hover:bg-primary-50 transition-all transform hover:scale-105"
             >
               Let's Talk
-            </a>
+            </button>
           </div>
 
           <button className="md:hidden text-slate-300 p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -77,22 +133,46 @@ const App: React.FC = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-slate-950 border-b border-slate-800 p-6 flex flex-col gap-4 shadow-2xl animate-fade-in">
             {navLinks.map((link) => (
-              <a 
-                key={link.name} 
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-slate-300 hover:text-primary-400 py-3 text-lg font-medium border-b border-slate-900"
-              >
-                {link.name}
-              </a>
+              <div key={link.name}>
+                {link.href.startsWith('/') ? (
+                  <Link 
+                    to={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-slate-300 hover:text-primary-400 py-3 text-lg font-medium border-b border-slate-900"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <button 
+                    onClick={() => {
+                      handleSectionNavigation(link.href);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left text-slate-300 hover:text-primary-400 py-3 text-lg font-medium border-b border-slate-900"
+                  >
+                    {link.name}
+                  </button>
+                )}
+              </div>
             ))}
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="py-3 text-primary-400 font-medium">Contact Me</a>
+            <button onClick={() => {
+              handleSectionNavigation('#contact');
+              setMobileMenuOpen(false);
+            }} className="py-3 text-primary-400 font-medium text-left">Contact Me</button>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/showcase" element={<Showcase />} />
+      </Routes>
+
+      {/* Footer - Show on home page only for now */}
+      {isHome && (
+        <>
+          {/* Hero Section */}
+          <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="absolute top-20 right-0 w-[800px] h-[800px] bg-primary-600/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 animate-blob"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4 animate-blob animation-delay-2000"></div>
 
@@ -477,6 +557,8 @@ const App: React.FC = () => {
           </p>
         </div>
       </footer>
+        </>
+      )}
 
       <AIChat />
     </div>

@@ -1,0 +1,19 @@
+---
+title: "Deploying to the Edge with Cloudflare"
+slug: "edge-deployment-cloudflare"
+date: "2023-09-21"
+tags: ["Cloud", "DevOps", "JavaScript", "Serverless"]
+excerpt: "Edge computing is bringing computation closer to the user, resulting in faster applications and new possibilities. Cloudflare Workers provides a powerful and easy-to-use platform for deploying serverless functions to the edge."
+---
+
+## The Future is on the Edge
+
+Traditionally, web applications have been deployed to servers in a specific region. This means that users who are far away from that region will experience higher latency. Edge computing solves this problem by deploying code to a global network of data centers, so that it's always close to the user.
+
+Cloudflare Workers is a serverless platform that allows you to run JavaScript, TypeScript, and WebAssembly on Cloudflare's global network. This has a number of advantages:
+
+-   **Performance**: Code runs closer to the user, reducing latency.
+-   **Scalability**: The network automatically scales to handle traffic.
+-   **Cost**: You only pay for what you use.
+
+We recently used Cloudflare Workers to build a real-time analytics dashboard. The application required low-latency data ingestion and processing from users all over the world. By deploying our data processing logic as a Cloudflare Worker, we were able to achieve sub-second latency for 99% of our users. The Worker receives data from the client, performs some initial processing and aggregation, and then forwards it to a central database for storage and further analysis. This architecture proved to be highly scalable and cost-effective. The developer experience was also excellent, with a simple CLI and a generous free tier for getting started.
