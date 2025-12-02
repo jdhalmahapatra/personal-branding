@@ -87,7 +87,7 @@ export const galleryData: GalleryImage[] = [
   },
   {
     id: 9,
-    imagePath: '/self_love.mp4.mp4',
+    imagePath: '/self_love.mp4',
     alt: 'Self Love is the best love ❤️ Embracing self-love and self-care is a transformative journey that nurtures my well-being and happiness. It\'s about prioritizing my needs, setting boundaries, and celebrating my worth. Here\'s to loving myself unconditionally and living authentically!',
     title: 'Self Love Journey',
     tags: ['Self Love', 'Well-being', 'Happiness', 'Authenticity'],
